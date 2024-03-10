@@ -1,8 +1,7 @@
-<?php
+<?php 
 
 namespace LaravelMercadoPago\LaravelMercadoPago;
 
-class LaravelMercadoPago
-{
+trait BillableMercadoPago {
 
 }
