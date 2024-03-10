@@ -1,17 +1,17 @@
 {
-    "name": ":vendor_slug/:package_slug",
-    "description": ":package_description",
+    "name": "germanlozickyj/laravel-mercado-pago",
+    "description": "A simple way to integrate your project with Mercado Pago API",
     "keywords": [
-        ":vendor_name",
+        "laravel-mercado-pago",
         "laravel",
-        ":package_slug"
+        "laravel-mercado-pago"
     ],
-    "homepage": "https://github.com/:vendor_slug/:package_slug",
+    "homepage": "https://github.com/germanlozickyj/laravel-mercado-pago",
     "license": "MIT",
     "authors": [
         {
-            "name": ":author_name",
-            "email": "author@domain.com",
+            "name": "Germán Lozickyj",
+            "email": "glozickyj@gmail.com",
             "role": "Developer"
         }
     ],
@@ -35,19 +35,19 @@
     },
     "autoload": {
         "psr-4": {
-            "VendorName\\Skeleton\\": "src/",
-            "VendorName\\Skeleton\\Database\\Factories\\": "database/factories/"
+            "LaravelMercadoPago\\LaravelMercadoPago\\": "src/",
+            "LaravelMercadoPago\\LaravelMercadoPago\\Database\\Factories\\": "database/factories/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "VendorName\\Skeleton\\Tests\\": "tests/",
+            "LaravelMercadoPago\\LaravelMercadoPago\\Tests\\": "tests/",
             "Workbench\\App\\": "workbench/app/"
         }
     },
     "scripts": {
         "post-autoload-dump": "@composer run prepare",
-        "clear": "@php vendor/bin/testbench package:purge-skeleton --ansi",
+        "clear": "@php vendor/bin/testbench package:purge-laravel-mercado-pago --ansi",
         "prepare": "@php vendor/bin/testbench package:discover --ansi",
         "build": [
             "@composer run prepare",
@@ -73,10 +73,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "VendorName\\Skeleton\\SkeletonServiceProvider"
+                "LaravelMercadoPago\\LaravelMercadoPago\\LaravelMercadoPagoServiceProvider"
             ],
             "aliases": {
-                "Skeleton": "VendorName\\Skeleton\\Facades\\Skeleton"
+                "LaravelMercadoPago": "LaravelMercadoPago\\LaravelMercadoPago\\Facades\\LaravelMercadoPago"
             }
         }
     },
