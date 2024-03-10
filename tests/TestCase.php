@@ -3,12 +3,8 @@
 namespace LaravelMercadoPago\LaravelMercadoPago\Tests;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use LaravelMercadoPago\LaravelMercadoPago\LaravelMercadoPagoServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
-<<<<<<< HEAD
 use LaravelMercadoPago\LaravelMercadoPago\LaravelMercadoPagoServiceProvider;
-=======
->>>>>>> 62d2369fac0c61e184f22e85212d4b4fa665c757
 
 class TestCase extends Orchestra
 {
