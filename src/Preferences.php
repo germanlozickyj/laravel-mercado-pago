@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace LaravelMercadoPago\LaravelMercadoPago;
 
@@ -11,7 +11,4 @@ class Preferences extends Model
     const PENDING = 'pending';
 
     const FAILED = 'failed';
-
-
-
 }

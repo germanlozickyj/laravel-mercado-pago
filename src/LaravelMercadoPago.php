@@ -4,5 +4,4 @@ namespace LaravelMercadoPago\LaravelMercadoPago;
 
 class LaravelMercadoPago
 {
-
 }
