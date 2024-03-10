@@ -2,13 +2,9 @@
 
 namespace LaravelMercadoPago\LaravelMercadoPago;
 
-use LaravelMercadoPago\LaravelMercadoPago\Commands\LaravelMercadoPagoCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-<<<<<<< HEAD
 use LaravelMercadoPago\LaravelMercadoPago\Commands\LaravelMercadoPagoCommand;
-=======
->>>>>>> 62d2369fac0c61e184f22e85212d4b4fa665c757
 
 class LaravelMercadoPagoServiceProvider extends PackageServiceProvider
 {
