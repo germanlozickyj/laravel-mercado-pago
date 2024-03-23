@@ -141,11 +141,7 @@ class Checkout implements Responsable
         return $this;
     }
 
-<<<<<<< HEAD
     public function withDescription(string $description) : self
-=======
-    public function withDescription(string $description): self
->>>>>>> 9a57cccd076efb4ff966f1012d705ef6d4b45b44
     {
         $this->description = $description;
 
