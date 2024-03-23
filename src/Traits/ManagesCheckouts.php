@@ -13,6 +13,7 @@ trait ManagesCheckouts
                 ->withDescription($options['description'])
                 ->withCategoryId($options['category_id'])
                 ->withPictureUrl($options['picture_url'])
+                ->withQuantity($options['quantity'])
                 ->withTitle($title)
                 ->withAmount($amount);
     }
