@@ -25,15 +25,11 @@ class Checkout implements Responsable
 
     private int $amount;
 
-<<<<<<< HEAD
     private int $quantity;
 
     private ?DateTimeInterface $expiresAt;
 
     public function __construct(string $product_id) 
-=======
-    public function __construct(string $product_id)
->>>>>>> 9a57cccd076efb4ff966f1012d705ef6d4b45b44
     {
     }
 
