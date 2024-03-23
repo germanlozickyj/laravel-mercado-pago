@@ -7,10 +7,10 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
 use DateTimeInterface;
 
-class Checkout implements Responsable 
+class Checkout implements Responsable
 {
     private string $title;
-    
+
     private string $description;
 
     private string $picture_url;
@@ -25,20 +25,24 @@ class Checkout implements Responsable
 
     private int $amount;
 
+<<<<<<< HEAD
     private int $quantity;
 
     private ?DateTimeInterface $expiresAt;
 
     public function __construct(string $product_id) 
+=======
+    public function __construct(string $product_id)
+>>>>>>> 9a57cccd076efb4ff966f1012d705ef6d4b45b44
     {
     }
 
-    public static function make(string $product_id) : static
+    public static function make(string $product_id): static
     {
         return new static($product_id);
     }
 
-    public function url() : string
+    public function url(): string
     {
         $response = LaravelMercadoPago::api('POST', 'checkout/preferences', [
                 "back_urls"=> $this->getBackUrls(),
@@ -134,42 +138,46 @@ class Checkout implements Responsable
         return $this->redirect();
     }
 
-    public function withTitle(string $title) : self
+    public function withTitle(string $title): self
     {
         $this->title = $title;
 
         return $this;
     }
 
+<<<<<<< HEAD
     public function withDescription(string $description) : self
+=======
+    public function withDescription(string $description): self
+>>>>>>> 9a57cccd076efb4ff966f1012d705ef6d4b45b44
     {
         $this->description = $description;
 
         return $this;
     }
 
-    public function withPictureUrl(string $picture_url) : self
+    public function withPictureUrl(string $picture_url): self
     {
         $this->picture_url = $picture_url;
 
         return $this;
     }
 
-    public function withCategoryId(string $category_id) : self
+    public function withCategoryId(string $category_id): self
     {
         $this->category_id = $category_id;
 
         return $this;
     }
 
-    public function withProductId(string $product_id) : self
+    public function withProductId(string $product_id): self
     {
         $this->product_id = $product_id;
 
         return $this;
     }
 
-    public function withAmount(int $amount) : self
+    public function withAmount(int $amount): self
     {
         $this->amount = $amount;
 

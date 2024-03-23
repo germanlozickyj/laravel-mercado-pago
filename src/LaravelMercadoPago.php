@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Http;
 
 class LaravelMercadoPago
 {
+<<<<<<< HEAD
     const API_URL = 'https://api.mercadopago.com';
 
     public static function api(string $method, string $uri, array $payload = [])
@@ -28,4 +29,6 @@ class LaravelMercadoPago
         return $response;
     }   
 
+=======
+>>>>>>> 9a57cccd076efb4ff966f1012d705ef6d4b45b44
 }
