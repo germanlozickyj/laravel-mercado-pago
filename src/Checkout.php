@@ -119,8 +119,11 @@ class Checkout implements Responsable
       return $urls;
     }
 
-    public function ExpirationTime() : self
+    public function ExpirationTime(DateTimeInterface $start_time, DateTimeInterface $end_time) : self
     {
+      $this->custom_data['expiration_date_from'] = $start_time;
+      $this->custom_data['expiration_date_to'] = $end_time;
+
       return $this;
     }
  
