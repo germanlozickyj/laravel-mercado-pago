@@ -20,12 +20,28 @@ class Checkout implements Responsable
     private string $product_id;
 
     private array $custom_data = [];
+
+    private array $client_data = [];
+
+    private array $client_identification = [];
+    
+    private array $client_address = [];
     
     private string $currency_id;
 
     private int $amount;
 
     private int $quantity;
+    
+    private array $excluded_payment_methods = [];
+
+    private array $excluded_payment_types = [];
+
+    private array $tracks = [];
+
+    private int $installments = null;
+
+    private int $default_installments = null;
 
     private ?DateTimeInterface $expiresAt;
 
@@ -46,6 +62,7 @@ class Checkout implements Responsable
                   "id"=> null
                 ],
                 "expires"=> isset($this->expiresAt) ? $this->expiresAt->format(DateTimeInterface::ATOM) : null,
+                ...$this->getExpirationTime(),
                 "items"=> [
                   [
                     "title"=> $this->title,
@@ -59,45 +76,58 @@ class Checkout implements Responsable
                 ],
                 "marketplace_fee"=> null,
                 "metadata"=> null,
-                "payer"=> [
-                  "phone"=> [
-                    "number"=> null
+                "payer" => [
+                  ...$this->client_data,
+                  "identification" => [
+                    ...$this->client_identification
                   ],
-                  "identification"=> [],
                   "address"=> [
-                    "street_number"=> null
+                    ...$this->client_address
                   ]
                 ],
                 "payment_methods"=> [
-                  "excluded_payment_methods"=> [
-                    []
+                  "excluded_payment_methods" => [
+                    ...$this->excluded_payment_methods
                   ],
-                  "excluded_payment_types"=> [
-                    []
+                  "excluded_payment_types" => [
+                    ...$this->excluded_payment_types
                   ],
-                  "installments"=> null,
-                  "default_installments"=> null
-                ],
-                "shipments"=> [
-                  "local_pickup"=> false,
-                  "default_shipping_method"=> null,
-                  "free_methods"=> [
-                    [
-                      "id"=> null
-                    ]
-                  ],
-                  "cost"=> null,
-                  "free_shipping"=> false,
-                  "receiver_address"=> [
-                    "street_number"=> null
-                  ]
+                  "installments" => $this->installments,
+                  "default_installments" => $this->default_installments
                 ],
                 "tracks"=> [
-                  []
+                  ...$this->tracks
                 ]
         ]);
 
         return $response;
+    }
+
+    public function getExpirationTime() : array
+    {
+      if(isset($this->custom_data['expiration_date_from']) &&  $this->custom_data['expiration_date_to']) {
+        return [
+          'expiration_date_from' => $this->custom_data['expiration_date_from'],
+          'expiration_date_to' => $this->custom_data['expiration_date_to'],
+        ];
+      }
+
+      return [];
+    }
+
+    
+    public function withMaxNumbersOfDue(int $max_dues) : self
+    {
+      $this->installments = $max_dues;
+
+      return $this;
+    }
+
+    public function withDefaultNumbersOfDue(int $max_dues) : self
+    {
+      $this->default_installments = $max_dues;
+
+      return $this;
     }
 
     public function getBackUrls() : array 
@@ -135,6 +165,87 @@ class Checkout implements Responsable
     public function toResponse($request): RedirectResponse
     {
         return $this->redirect();
+    }
+
+    public function withExcludedPaymentMethods(array $methods) : self
+    {
+      $this->excluded_payment_methods = $methods;
+
+      return $this;
+    }
+
+    public function withExcludedPaymentTypes(array $methods) : self
+    {
+      $this->excluded_payment_types = $methods;
+      
+      return $this;
+    }
+    //USER LOCATION
+    public function withUserZipCode(string $postal_code) : self
+    {
+      $this->client_data['zip_code'] = $postal_code;
+   
+      return $this;
+    }
+
+    public function withUserStreetName(string $street_name) : self
+    {
+      $this->client_data['street_name'] = $street_name;
+   
+      return $this;
+    }
+
+    public function withUserStreetNumber(int $street_number) : self
+    {
+      $this->client_data['street_number'] = $street_number;
+   
+      return $this;
+    }
+    //USER IDENTIFICATION 
+    public function withIdentificationType(string $type) : self
+    {
+      $this->client_identification['type'] = $type;
+   
+      return $this;
+    }
+
+    public function withIdentificationNumber(int $number) : self
+    {
+      $this->client_identification['number'] = $number;
+   
+      return $this;
+    }
+
+    //USER DATA 
+    public function withName(string $name) : self
+    {
+      $this->client_data['name'] = $name;
+   
+      return $this;
+    }
+
+    public function withSurname(string $surname) : self
+    {
+      $this->client_data['surname'] = $surname;
+      
+      return $this;
+    }
+
+    public function withEmail(string $email) : self
+    {
+      $this->client_data['email'] = $email;
+
+      return $this;
+    }
+
+    public function withPhone(string $area_code, int $number) : self
+    {
+      $this->client_data['phone'] = [
+        'area_code' => $area_code,
+        'number' => $number
+      ];
+      
+      return $this;
     }
 
     public function withTitle(string $title): self
@@ -191,5 +302,25 @@ class Checkout implements Responsable
         $this->expiresAt = $expiresAt;
 
         return $this;
+    }
+
+    public function withGoogleTracks(string $values) : self
+    {
+      array_push($this->tracks, [
+        'type' => 'google_ad',
+        'values' => $values
+      ]);
+
+      return $this;
+    }
+
+    public function withFacebookTracks(string $values) : self
+    {
+      array_push($this->tracks, [
+        'type' => 'facebook_ad',
+        'values' => $values
+      ]);
+
+      return $this;
     }
 }
