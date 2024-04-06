@@ -2,10 +2,10 @@
 
 namespace LaravelMercadoPago\LaravelMercadoPago;
 
+use DateTimeInterface;
 use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
-use DateTimeInterface;
 
 class Checkout implements Responsable
 {
@@ -45,7 +45,7 @@ class Checkout implements Responsable
 
     private ?DateTimeInterface $expiresAt;
 
-    public function __construct(string $product_id) 
+    public function __construct(string $product_id)
     {
     }
 
@@ -57,9 +57,20 @@ class Checkout implements Responsable
     public function url(): string
     {
         $response = LaravelMercadoPago::api('POST', 'checkout/preferences', [
-                "back_urls"=> $this->getBackUrls(),
-                "differential_pricing"=> [
-                  "id"=> null
+            'back_urls' => $this->getBackUrls(),
+            'differential_pricing' => [
+                'id' => null,
+            ],
+            'expires' => isset($this->expiresAt) ? $this->expiresAt->format(DateTimeInterface::ATOM) : null,
+            'items' => [
+                [
+                    'title' => $this->title,
+                    'description' => $this->description,
+                    'picture_url' => $this->picture_url,
+                    'category_id' => $this->category_id,
+                    'quantity' => $this->quantity,
+                    'currency_id' => $this->currency_id,
+                    'unit_price' => $this->amount,
                 ],
                 "expires"=> isset($this->expiresAt) ? $this->expiresAt->format(DateTimeInterface::ATOM) : null,
                 ...$this->getExpirationTime(),
@@ -132,21 +143,21 @@ class Checkout implements Responsable
 
     public function getBackUrls() : array 
     {
-      $keys = [
-        'success',
-        'pending',
-        'failed'
-      ];
+        $keys = [
+            'success',
+            'pending',
+            'failed',
+        ];
 
-      $urls = [];
+        $urls = [];
 
-      foreach($keys as $key) {
-        if(isset($this->custom_data["back_{$key}_url"])) {
-          array_push($urls, $this->custom_data["back_{$key}_url"]);
+        foreach ($keys as $key) {
+            if (isset($this->custom_data["back_{$key}_url"])) {
+                array_push($urls, $this->custom_data["back_{$key}_url"]);
+            }
         }
-      }
 
-      return $urls;
+        return $urls;
     }
 
     public function ExpirationTime(DateTimeInterface $start_time, DateTimeInterface $end_time) : self
@@ -156,7 +167,7 @@ class Checkout implements Responsable
 
       return $this;
     }
- 
+
     public function redirect(): RedirectResponse
     {
         return Redirect::to($this->url(), 303);
@@ -255,7 +266,7 @@ class Checkout implements Responsable
         return $this;
     }
 
-    public function withDescription(string $description) : self
+    public function withDescription(string $description): self
     {
         $this->description = $description;
 
@@ -290,10 +301,10 @@ class Checkout implements Responsable
         return $this;
     }
 
-    public function withQuantity(int $quantity) : self
+    public function withQuantity(int $quantity): self
     {
         $this->quantity = $quantity;
-        
+
         return $this;
     }
 
