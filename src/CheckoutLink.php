@@ -7,7 +7,7 @@ use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
 
-class Checkout implements Responsable
+class CheckoutLink implements Responsable
 {
     private string $title;
 
@@ -29,7 +29,7 @@ class Checkout implements Responsable
     
     private string $currency_id;
 
-    private int $amount;
+    private int $unit_price;
 
     private int $quantity;
     
@@ -43,15 +43,13 @@ class Checkout implements Responsable
 
     private int $default_installments = null;
 
+    private string $notification_url;
+
     private ?DateTimeInterface $expiresAt;
 
-    public function __construct(string $product_id)
+    public static function make(): static
     {
-    }
-
-    public static function make(string $product_id): static
-    {
-        return new static($product_id);
+        return new static();
     }
 
     public function url(): string
@@ -64,51 +62,43 @@ class Checkout implements Responsable
             'expires' => isset($this->expiresAt) ? $this->expiresAt->format(DateTimeInterface::ATOM) : null,
             'items' => [
                 [
-                    'title' => $this->title,
-                    'description' => $this->description,
-                    'picture_url' => $this->picture_url,
-                    'category_id' => $this->category_id,
-                    'quantity' => $this->quantity,
-                    'currency_id' => $this->currency_id,
-                    'unit_price' => $this->amount,
+                  'id' => $this->product_id,
+                  'title' => $this->title,
+                  'description' => $this->description,
+                  'picture_url' => $this->picture_url,
+                  'category_id' => $this->category_id,
+                  'quantity' => $this->quantity,
+                  'currency_id' => $this->currency_id,
+                  'unit_price' => $this->unit_price,
                 ],
-                "expires"=> isset($this->expiresAt) ? $this->expiresAt->format(DateTimeInterface::ATOM) : null,
-                ...$this->getExpirationTime(),
-                "items"=> [
-                  [
-                    "title"=> $this->title,
-                    "description"=> $this->description,
-                    "picture_url"=> $this->picture_url,
-                    "category_id"=> $this->category_id,
-                    "quantity"=> $this->quantity,
-                    "currency_id"=> $this->currency_id,
-                    "unit_price"=> $this->amount
-                  ]
-                ],
-                "marketplace_fee"=> null,
-                "metadata"=> null,
-                "payer" => [
-                  ...$this->client_data,
-                  "identification" => [
-                    ...$this->client_identification
-                  ],
-                  "address"=> [
-                    ...$this->client_address
-                  ]
-                ],
-                "payment_methods"=> [
-                  "excluded_payment_methods" => [
-                    ...$this->excluded_payment_methods
-                  ],
-                  "excluded_payment_types" => [
-                    ...$this->excluded_payment_types
-                  ],
-                  "installments" => $this->installments,
-                  "default_installments" => $this->default_installments
-                ],
-                "tracks"=> [
-                  ...$this->tracks
-                ]
+            ],
+            "expires"=> isset($this->expiresAt) ? $this->expiresAt->format(DateTimeInterface::ATOM) : null,
+            ...$this->getExpirationTime(),
+            "marketplace_fee"=> null,
+            "metadata"=> null,
+            'notification_url' => $this->notification_url ?? null,
+            "payer" => [
+              ...$this->client_data,
+              "identification" => [
+                ...$this->client_identification
+              ],
+              "address"=> [
+                ...$this->client_address
+              ]
+            ],
+            "payment_methods"=> [
+              "excluded_payment_methods" => [
+                ...$this->excluded_payment_methods
+              ],
+              "excluded_payment_types" => [
+                ...$this->excluded_payment_types
+              ],
+              "installments" => $this->installments,
+              "default_installments" => $this->default_installments
+            ],
+            "tracks"=> [
+              ...$this->tracks
+            ]
         ]);
 
         return $response;
@@ -294,9 +284,9 @@ class Checkout implements Responsable
         return $this;
     }
 
-    public function withAmount(int $amount): self
+    public function withUnitPrice(int $unit_price): self
     {
-        $this->amount = $amount;
+        $this->unit_price = $unit_price;
 
         return $this;
     }
@@ -331,6 +321,13 @@ class Checkout implements Responsable
         'type' => 'facebook_ad',
         'values' => $values
       ]);
+
+      return $this;
+    }
+
+    public function withNotificationUrl(string $notification_url) : self
+    {
+      $this->notification_url = $notification_url;
 
       return $this;
     }
