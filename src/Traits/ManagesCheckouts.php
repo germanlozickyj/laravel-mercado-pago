@@ -10,7 +10,7 @@ trait ManagesCheckouts
     public function checkoutLink(
         int $product_id, 
         string $title, 
-        int $quantity, 
+        int $quantity,
         int $unit_price, 
         array $options = []
     ) : CheckoutLink
