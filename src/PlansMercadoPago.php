@@ -10,23 +10,41 @@ use Illuminate\Support\Facades\Redirect;
 class PlansMercadoPago implements Responsable 
 {
 
-    public function __construct(string $product_id)
+    private string $back_url;
+
+    private string $reason;
+
+    private array $auto_recurring;
+
+    private array $payment_methods_allowed;
+
+    public static function make(): static
     {
+        return new static();
     }
 
-    public static function make(string $product_id): static
+    public function withBackUrl(string $back_url) : self
     {
-        return new static($product_id);
+        $this->$back_url = $back_url;
+
+        return $this;
     }
 
-    public function send()
+    public function withReason(string $reason) : self
+    {
+        $this->$reason = $reason;
+        
+        return $this;
+    }
+
+    public function create()
     {
 
     }
 
     public function response(): RedirectResponse
     {
-        return Redirect::to($this->send(), 303);
+        return Redirect::to($this->create(), 303);
     }
 
     public function toResponse($request): RedirectResponse
