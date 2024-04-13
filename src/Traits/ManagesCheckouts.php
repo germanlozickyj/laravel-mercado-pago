@@ -28,19 +28,44 @@ trait ManagesCheckouts
     public function checkoutSubscription(
         string $back_url, 
         string $card_token_id, 
-        string $payer_email, 
-        string $frequency_type, 
-        int $frequency
+        string $payer_email,
+        array $auto_recurring = [], 
     )
     {
-        if(in_array($frequency_type, ['days', 'months'])) {
-            //exception
-        }
+        $this->ValidateAutoRecurring($auto_recurring);
 
         return checkoutSubscription::make()
                             ->withBackUrl($back_url)
                             ->withCardTokenId($card_token_id)
-                            ->withPayerEmail($payer_email)
+                            ->withPayerEmail($payer_email);
+    }
+
+
+    public function ValidateAutoRecurring(array $auto_recurring)
+    {
+        if(empty($auto_recurring)) {
+            return;
+        }
+        if(in_array(['frequency', 'frequency_type', 'currency_id'], $auto_recurring)) {
+            //exception
+        }
+        if(in_array($auto_recurring['frequency_type'], ['days', 'months'])) {
+            //exception
+        }
+        if(
+            in_array($auto_recurring['currency_id'], 
+            [
+                'ARS', 
+                'BRL',
+                'CLP',
+                'MXN',
+                'COP',
+                'PEN',
+                'UYU'
+            ]
+        )) {
+            //exception
+        }
     }
 
 }

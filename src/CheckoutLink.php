@@ -39,9 +39,9 @@ class CheckoutLink implements Responsable
 
     private array $tracks = [];
 
-    private int $installments = null;
+    private ?int $installments = null;
 
-    private int $default_installments = null;
+    private ?int $default_installments = null;
 
     private string $notification_url;
 

@@ -23,6 +23,11 @@ class checkoutSubscription implements Responsable
 
     private string $status;
 
+    public static function make() : self 
+    {
+        return new static();
+    }
+
     public function url(): string
     {
         $response = LaravelMercadoPago::api('POST', 'checkout/preferences', [
