@@ -2,12 +2,11 @@
 
 namespace LaravelMercadoPago\LaravelMercadoPago;
 
-use DateTimeInterface;
 use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
 
-class PlansMercadoPago implements Responsable 
+class PlansMercadoPago implements Responsable
 {
 
     private string $back_url;
@@ -25,14 +24,14 @@ class PlansMercadoPago implements Responsable
 
     public function withBackUrl(string $back_url) : self
     {
-        $this->$back_url = $back_url;
+        $this->back_url = $back_url;
 
         return $this;
     }
 
     public function withReason(string $reason) : self
     {
-        $this->$reason = $reason;
+        $this->reason = $reason;
         
         return $this;
     }

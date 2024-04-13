@@ -24,15 +24,15 @@ class CheckoutLink implements Responsable
     private array $client_data = [];
 
     private array $client_identification = [];
-    
+
     private array $client_address = [];
-    
+
     private string $currency_id;
 
     private int $unit_price;
 
     private int $quantity;
-    
+
     private array $excluded_payment_methods = [];
 
     private array $excluded_payment_types = [];
@@ -62,76 +62,75 @@ class CheckoutLink implements Responsable
             'expires' => isset($this->expiresAt) ? $this->expiresAt->format(DateTimeInterface::ATOM) : null,
             'items' => [
                 [
-                  'id' => $this->product_id,
-                  'title' => $this->title,
-                  'description' => $this->description,
-                  'picture_url' => $this->picture_url,
-                  'category_id' => $this->category_id,
-                  'quantity' => $this->quantity,
-                  'currency_id' => $this->currency_id,
-                  'unit_price' => $this->unit_price,
+                    'id' => $this->product_id,
+                    'title' => $this->title,
+                    'description' => $this->description,
+                    'picture_url' => $this->picture_url,
+                    'category_id' => $this->category_id,
+                    'quantity' => $this->quantity,
+                    'currency_id' => $this->currency_id,
+                    'unit_price' => $this->unit_price,
                 ],
             ],
-            "expires"=> isset($this->expiresAt) ? $this->expiresAt->format(DateTimeInterface::ATOM) : null,
+            'expires' => isset($this->expiresAt) ? $this->expiresAt->format(DateTimeInterface::ATOM) : null,
             ...$this->getExpirationTime(),
-            "marketplace_fee"=> null,
-            "metadata"=> null,
+            'marketplace_fee' => null,
+            'metadata' => null,
             'notification_url' => $this->notification_url ?? null,
-            "payer" => [
-              ...$this->client_data,
-              "identification" => [
-                ...$this->client_identification
-              ],
-              "address"=> [
-                ...$this->client_address
-              ]
+            'payer' => [
+                ...$this->client_data,
+                'identification' => [
+                    ...$this->client_identification,
+                ],
+                'address' => [
+                    ...$this->client_address,
+                ],
             ],
-            "payment_methods"=> [
-              "excluded_payment_methods" => [
-                ...$this->excluded_payment_methods
-              ],
-              "excluded_payment_types" => [
-                ...$this->excluded_payment_types
-              ],
-              "installments" => $this->installments,
-              "default_installments" => $this->default_installments
+            'payment_methods' => [
+                'excluded_payment_methods' => [
+                    ...$this->excluded_payment_methods,
+                ],
+                'excluded_payment_types' => [
+                    ...$this->excluded_payment_types,
+                ],
+                'installments' => $this->installments,
+                'default_installments' => $this->default_installments,
             ],
-            "tracks"=> [
-              ...$this->tracks
-            ]
+            'tracks' => [
+                ...$this->tracks,
+            ],
         ]);
 
         return $response;
     }
 
-    public function getExpirationTime() : array
+    public function getExpirationTime(): array
     {
-      if(isset($this->custom_data['expiration_date_from']) &&  $this->custom_data['expiration_date_to']) {
-        return [
-          'expiration_date_from' => $this->custom_data['expiration_date_from'],
-          'expiration_date_to' => $this->custom_data['expiration_date_to'],
-        ];
-      }
+        if (isset($this->custom_data['expiration_date_from']) && $this->custom_data['expiration_date_to']) {
+            return [
+                'expiration_date_from' => $this->custom_data['expiration_date_from'],
+                'expiration_date_to' => $this->custom_data['expiration_date_to'],
+            ];
+        }
 
-      return [];
+        return [];
     }
 
-    
-    public function withMaxNumbersOfDue(int $max_dues) : self
+    public function withMaxNumbersOfDue(int $max_dues): self
     {
-      $this->installments = $max_dues;
+        $this->installments = $max_dues;
 
-      return $this;
+        return $this;
     }
 
-    public function withDefaultNumbersOfDue(int $max_dues) : self
+    public function withDefaultNumbersOfDue(int $max_dues): self
     {
-      $this->default_installments = $max_dues;
+        $this->default_installments = $max_dues;
 
-      return $this;
+        return $this;
     }
 
-    public function getBackUrls() : array 
+    public function getBackUrls(): array
     {
         $keys = [
             'success',
@@ -150,12 +149,12 @@ class CheckoutLink implements Responsable
         return $urls;
     }
 
-    public function ExpirationTime(DateTimeInterface $start_time, DateTimeInterface $end_time) : self
+    public function ExpirationTime(DateTimeInterface $start_time, DateTimeInterface $end_time): self
     {
-      $this->custom_data['expiration_date_from'] = $start_time;
-      $this->custom_data['expiration_date_to'] = $end_time;
+        $this->custom_data['expiration_date_from'] = $start_time;
+        $this->custom_data['expiration_date_to'] = $end_time;
 
-      return $this;
+        return $this;
     }
 
     public function redirect(): RedirectResponse
@@ -168,85 +167,87 @@ class CheckoutLink implements Responsable
         return $this->redirect();
     }
 
-    public function withExcludedPaymentMethods(array $methods) : self
+    public function withExcludedPaymentMethods(array $methods): self
     {
-      $this->excluded_payment_methods = $methods;
+        $this->excluded_payment_methods = $methods;
 
-      return $this;
+        return $this;
     }
 
-    public function withExcludedPaymentTypes(array $methods) : self
+    public function withExcludedPaymentTypes(array $methods): self
     {
-      $this->excluded_payment_types = $methods;
-      
-      return $this;
+        $this->excluded_payment_types = $methods;
+
+        return $this;
     }
+
     //USER LOCATION
-    public function withUserZipCode(string $postal_code) : self
+    public function withUserZipCode(string $postal_code): self
     {
-      $this->client_data['zip_code'] = $postal_code;
-   
-      return $this;
+        $this->client_data['zip_code'] = $postal_code;
+
+        return $this;
     }
 
-    public function withUserStreetName(string $street_name) : self
+    public function withUserStreetName(string $street_name): self
     {
-      $this->client_data['street_name'] = $street_name;
-   
-      return $this;
+        $this->client_data['street_name'] = $street_name;
+
+        return $this;
     }
 
-    public function withUserStreetNumber(int $street_number) : self
+    public function withUserStreetNumber(int $street_number): self
     {
-      $this->client_data['street_number'] = $street_number;
-   
-      return $this;
-    }
-    //USER IDENTIFICATION 
-    public function withIdentificationType(string $type) : self
-    {
-      $this->client_identification['type'] = $type;
-   
-      return $this;
+        $this->client_data['street_number'] = $street_number;
+
+        return $this;
     }
 
-    public function withIdentificationNumber(int $number) : self
+    //USER IDENTIFICATION
+    public function withIdentificationType(string $type): self
     {
-      $this->client_identification['number'] = $number;
-   
-      return $this;
+        $this->client_identification['type'] = $type;
+
+        return $this;
     }
 
-    //USER DATA 
-    public function withName(string $name) : self
+    public function withIdentificationNumber(int $number): self
     {
-      $this->client_data['name'] = $name;
-   
-      return $this;
+        $this->client_identification['number'] = $number;
+
+        return $this;
     }
 
-    public function withSurname(string $surname) : self
+    //USER DATA
+    public function withName(string $name): self
     {
-      $this->client_data['surname'] = $surname;
-      
-      return $this;
+        $this->client_data['name'] = $name;
+
+        return $this;
     }
 
-    public function withEmail(string $email) : self
+    public function withSurname(string $surname): self
     {
-      $this->client_data['email'] = $email;
+        $this->client_data['surname'] = $surname;
 
-      return $this;
+        return $this;
     }
 
-    public function withPhone(string $area_code, int $number) : self
+    public function withEmail(string $email): self
     {
-      $this->client_data['phone'] = [
-        'area_code' => $area_code,
-        'number' => $number
-      ];
-      
-      return $this;
+        $this->client_data['email'] = $email;
+
+        return $this;
+    }
+
+    public function withPhone(string $area_code, int $number): self
+    {
+        $this->client_data['phone'] = [
+            'area_code' => $area_code,
+            'number' => $number,
+        ];
+
+        return $this;
     }
 
     public function withTitle(string $title): self
@@ -305,30 +306,30 @@ class CheckoutLink implements Responsable
         return $this;
     }
 
-    public function withGoogleTracks(string $values) : self
+    public function withGoogleTracks(string $values): self
     {
-      array_push($this->tracks, [
-        'type' => 'google_ad',
-        'values' => $values
-      ]);
+        array_push($this->tracks, [
+            'type' => 'google_ad',
+            'values' => $values,
+        ]);
 
-      return $this;
+        return $this;
     }
 
-    public function withFacebookTracks(string $values) : self
+    public function withFacebookTracks(string $values): self
     {
-      array_push($this->tracks, [
-        'type' => 'facebook_ad',
-        'values' => $values
-      ]);
+        array_push($this->tracks, [
+            'type' => 'facebook_ad',
+            'values' => $values,
+        ]);
 
-      return $this;
+        return $this;
     }
 
-    public function withNotificationUrl(string $notification_url) : self
+    public function withNotificationUrl(string $notification_url): self
     {
-      $this->notification_url = $notification_url;
+        $this->notification_url = $notification_url;
 
-      return $this;
+        return $this;
     }
 }
