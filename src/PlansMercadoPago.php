@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Redirect;
 
 class PlansMercadoPago implements Responsable
 {
-
     private string $back_url;
 
     private string $reason;
@@ -22,17 +21,17 @@ class PlansMercadoPago implements Responsable
         return new static();
     }
 
-    public function withBackUrl(string $back_url) : self
+    public function withBackUrl(string $back_url): self
     {
         $this->back_url = $back_url;
 
         return $this;
     }
 
-    public function withReason(string $reason) : self
+    public function withReason(string $reason): self
     {
         $this->reason = $reason;
-        
+
         return $this;
     }
 
