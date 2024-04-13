@@ -2,14 +2,12 @@
 
 namespace LaravelMercadoPago\LaravelMercadoPago;
 
-use DateTimeInterface;
 use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
 
-class PlansMercadoPago implements Responsable 
+class PlansMercadoPago implements Responsable
 {
-
     public function __construct(string $product_id)
     {
     }

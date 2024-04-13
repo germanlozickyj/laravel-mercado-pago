@@ -30,12 +30,12 @@ class LaravelMercadoPago
             //mercado pago exception
         }
 
-        if(config('mercado-pago.sandbox_active')) {
+        if (config('mercado-pago.sandbox_active')) {
             return $response['sandbox_init_point'];
         }
 
         return $response['init_point'];
-    }   
+    }
 
     public static function formatAmount(int $amount, string $currency, ?string $locale = null, array $options = []): string
     {
@@ -53,5 +53,4 @@ class LaravelMercadoPago
 
         return $moneyFormatter->format($money);
     }
-
 }
