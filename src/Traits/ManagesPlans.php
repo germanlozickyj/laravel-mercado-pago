@@ -7,7 +7,7 @@ use LaravelMercadoPago\LaravelMercadoPago\PlansMercadoPago;
 trait ManagesPlans
 {
     public function createPlan(
-        string $back_url, 
+        string $back_url,
         string $reason,
         int $frequency,
         string $frequency_type,
