@@ -11,14 +11,21 @@ trait ManagesPlans
         string $reason,
         int $frequency,
         string $frequency_type,
-        array $payment_methods_allowed
+        array $payment_methods_allowed = [],
+        array $custom_auto_recurring = [],
     )
     {
-        return PlansMercadoPago::make()
+        $plan = PlansMercadoPago::make()
                         ->withBackUrl($back_url)
                         ->withReason($reason)
-                        ->withAutoRecurring($frequency, $frequency_type)
-                        ->withPaymentMethodsAllowed()
-                        ->create();
+                        ->withAutoRecurring($frequency, $frequency_type);
+        if(! empty($payment_methods_allowed)) {
+
+        }
+        if(! empty($custom_auto_recurring)) {
+            
+        }
+        
+        #                ->create($payment_methods_allowed, $custom_auto_recurring);
     }
 }

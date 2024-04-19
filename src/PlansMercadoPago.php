@@ -36,9 +36,9 @@ class PlansMercadoPago implements Responsable
         return $this;
     }
 
-    public function create()
+    public function create($payment_methods_allowed = [], $custom_auto_recurring = [])
     {
-        
+
     }
     
     public function withAutoRecurring(int $frequency, string $frequency_type) : self
