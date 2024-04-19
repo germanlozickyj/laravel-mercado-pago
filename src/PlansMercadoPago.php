@@ -69,10 +69,10 @@ class PlansMercadoPago implements Responsable
 
         return $this;
     }
-    
-    public function withAutoRecurring(int $frequency, string $frequency_type) : self
+
+    public function withAutoRecurring(int $frequency, string $frequency_type): self
     {
-        if(in_array($frequency_type, ['days', 'months'])) {
+        if (in_array($frequency_type, ['days', 'months'])) {
             //exception
         }
 

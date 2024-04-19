@@ -13,8 +13,7 @@ trait ManagesPlans
         string $frequency_type,
         array $payment_methods_allowed = [],
         array $custom_auto_recurring = [],
-    )
-    {
+    ) {
         $plan = PlansMercadoPago::make()
                         ->withBackUrl($back_url)
                         ->withReason($reason)
