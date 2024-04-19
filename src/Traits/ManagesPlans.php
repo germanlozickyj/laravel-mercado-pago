@@ -9,7 +9,7 @@ trait ManagesPlans
     public function createPlan(
         string $back_url, 
         string $reason,
-        string $frequency,
+        int $frequency,
         string $frequency_type,
         array $payment_methods_allowed
     )
@@ -17,7 +17,7 @@ trait ManagesPlans
         return PlansMercadoPago::make()
                         ->withBackUrl($back_url)
                         ->withReason($reason)
-                        ->withAutoRecurring()
+                        ->withAutoRecurring($frequency, $frequency_type)
                         ->withPaymentMethodsAllowed()
                         ->create();
     }

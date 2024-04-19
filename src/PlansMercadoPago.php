@@ -38,7 +38,19 @@ class PlansMercadoPago implements Responsable
 
     public function create()
     {
+        
+    }
+    
+    public function withAutoRecurring(int $frequency, string $frequency_type) : self
+    {
+        if(in_array($frequency_type, ['days', 'months'])) {
+            //exception
+        }
 
+        $this->auto_recurring['frequency_type'] = $frequency_type;
+        $this->auto_recurring['frequency'] = $frequency;
+
+        return $this;
     }
 
     public function response(): RedirectResponse
