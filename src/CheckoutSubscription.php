@@ -26,7 +26,7 @@ class checkoutSubscription implements ManagesApiResponses
         return new static();
     }
 
-    public function url(): string
+    public function url()
     {
         $response = LaravelMercadoPago::api('POST', 'checkout/preferences', [
             'back_url' => $this->back_url,
