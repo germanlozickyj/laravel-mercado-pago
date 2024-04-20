@@ -43,16 +43,16 @@ trait ManagesPlans
     public function setCurrency(string $currency): self
     {
         if (! in_array($currency,
-                [
-                    'ARS',
-                    'BRL',
-                    'CLP',
-                    'MXN',
-                    'COP',
-                    'PEN',
-                    'UYU',
-                ]
-            )) {
+            [
+                'ARS',
+                'BRL',
+                'CLP',
+                'MXN',
+                'COP',
+                'PEN',
+                'UYU',
+            ]
+        )) {
             //exception
         }
 
@@ -89,19 +89,19 @@ trait ManagesPlans
         $this->planMercadoPago = $object;
     }
 
-    public function repeatSubscriptionCycle(int $number): self 
+    public function repeatSubscriptionCycle(int $number): self
     {
         $this->setObjectMercadoPago(
             $this->planMercadoPago
                 ->withRepetitions($number)
         );
-        
+
         return $this;
     }
 
     public function billingAtDay(int $day): self
     {
-        if($day < 1 || $day > 28) {
+        if ($day < 1 || $day > 28) {
             //exception
         }
 
@@ -122,5 +122,4 @@ trait ManagesPlans
 
         return $this;
     }
-
 }
