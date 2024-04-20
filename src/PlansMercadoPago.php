@@ -49,7 +49,7 @@ class PlansMercadoPago implements Responsable
         //TODO save in db
     }
 
-    public function withCustomAutoRecurring(array $custom_auto_recurring_data) : self 
+    public function withCustomAutoRecurring(array $custom_auto_recurring_data): self
     {
         $this->custom_auto_recurring = [
             'repetitions' => $custom_auto_recurring_data['repetitions'] ?? '',
@@ -60,18 +60,15 @@ class PlansMercadoPago implements Responsable
         return $this;
     }
 
-    public function withPaymentMethodsAllowed(array $payment_methods_allowed) : self
+    public function withPaymentMethodsAllowed(array $payment_methods_allowed): self
     {
         $this->payment_methods_allowed = [
-            'payment_types' => 
-                isset($payment_methods_allowed['payment_types']) ? 
+            'payment_types' => isset($payment_methods_allowed['payment_types']) ?
                 $payment_methods_allowed['payment_types']
-                : []
-            ,
-            'payment_methods' => 
-                isset($payment_methods_allowed['payment_types']) ? 
+                : [],
+            'payment_methods' => isset($payment_methods_allowed['payment_types']) ?
                 $payment_methods_allowed['payment_types']
-                : []
+                : [],
         ];
 
         return $this;
