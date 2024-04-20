@@ -39,7 +39,14 @@ class PlansMercadoPago implements Responsable
 
     public function create()
     {
+        $response = LaravelMercadoPago::api('POST', 'preapproval_plan', [
+            'auto_recurring' => $this->auto_recurring,
+            'back_url' => $this->back_url,
+            'payment_methods_allowed' => $this->payment_methods_allowed,
+            'reason' => $this->reason,
+        ]);
 
+        //TODO save in db
     }
 
     public function withCustomAutoRecurring(array $custom_auto_recurring_data) : self 
