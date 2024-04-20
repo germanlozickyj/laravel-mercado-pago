@@ -9,14 +9,13 @@ trait ManagesPlans
     private PlansMercadoPago $planMercadoPago;
 
     public static function makePlan(
-        string $back_url, 
+        string $back_url,
         string $reason
-    ) : self 
-    {
+    ): self {
         $plan = new static();
         $plan->planMercadoPago = PlansMercadoPago::make()
-                                    ->withBackUrl($back_url)
-                                    ->withReason($reason);
+            ->withBackUrl($back_url)
+            ->withReason($reason);
 
         return $plan;
     }
@@ -44,8 +43,8 @@ trait ManagesPlans
         $plan->create();
     }
 
-    public function createMonthlyPlan() : self
-    {   
+    public function createMonthlyPlan(): self
+    {
         $this->setObjectMercadoPago(
             $this->planMercadoPago
                 ->withAutoRecurring(1, 'months')
@@ -54,8 +53,8 @@ trait ManagesPlans
         return $this;
     }
 
-    public function createYearlyPlan() : self
-    {   
+    public function createYearlyPlan(): self
+    {
         $this->setObjectMercadoPago(
             $this->planMercadoPago
                 ->withAutoRecurring(12, 'months')
@@ -64,7 +63,7 @@ trait ManagesPlans
         return $this;
     }
 
-    public function setCurrency(string $currency): self 
+    public function setCurrency(string $currency): self
     {
         $this->setObjectMercadoPago(
             $this->planMercadoPago
@@ -94,10 +93,8 @@ trait ManagesPlans
         return $this;
     }
 
-    private function setObjectMercadoPago(PlansMercadoPago $object) : void
+    private function setObjectMercadoPago(PlansMercadoPago $object): void
     {
         $this->planMercadoPago = $object;
     }
-
-
 }

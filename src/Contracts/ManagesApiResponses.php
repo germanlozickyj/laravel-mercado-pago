@@ -4,9 +4,10 @@ namespace LaravelMercadoPago\LaravelMercadoPago\Contracs;
 
 use Illuminate\Support\Facades\Http;
 
-interface ManagesApiResponses {
+interface ManagesApiResponses
+{
     public function handleStatusCode(Http $response);
-   
+
     public function handleExpection(Http $response);
 
     public function handleResponse(Http $response);

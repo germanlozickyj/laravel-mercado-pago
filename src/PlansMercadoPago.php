@@ -2,8 +2,8 @@
 
 namespace LaravelMercadoPago\LaravelMercadoPago;
 
-use LaravelMercadoPago\LaravelMercadoPago\Contracs\ManagesApiResponses;
 use Illuminate\Support\Facades\Http;
+use LaravelMercadoPago\LaravelMercadoPago\Contracs\ManagesApiResponses;
 
 class PlansMercadoPago implements ManagesApiResponses
 {
@@ -91,7 +91,7 @@ class PlansMercadoPago implements ManagesApiResponses
     public function handleStatusCode(Http $response)
     {
     }
-   
+
     public function handleExpection(Http $response)
     {
     }

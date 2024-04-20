@@ -53,7 +53,7 @@ class LaravelMercadoPago implements ManagesApiResponses
     public function handleStatusCode(Http $response)
     {
     }
-   
+
     public function handleExpection(Http $response)
     {
     }
