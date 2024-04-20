@@ -1,8 +1,9 @@
-<?php 
+<?php
 
 namespace LaravelMercadoPago\LaravelMercadoPago\Contracs;
 
-interface ManagesApiResponses {
+interface ManagesApiResponses
+{
     public function HandleStatusCode();
 
     public function HandleExpection();
