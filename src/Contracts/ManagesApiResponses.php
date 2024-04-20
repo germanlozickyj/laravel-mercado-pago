@@ -2,12 +2,12 @@
 
 namespace LaravelMercadoPago\LaravelMercadoPago\Contracs;
 
+use Illuminate\Support\Facades\Http;
+
 interface ManagesApiResponses {
-    public function HandleStatusCode();
+    public function handleStatusCode(Http $response);
+   
+    public function handleExpection(Http $response);
 
-    public function HandleExpection();
-
-    public function HandleResponse();
-
-    public function resolve();
+    public function handleResponse(Http $response);
 }

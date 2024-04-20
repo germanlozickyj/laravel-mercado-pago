@@ -2,11 +2,10 @@
 
 namespace LaravelMercadoPago\LaravelMercadoPago;
 
-use Illuminate\Contracts\Support\Responsable;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Redirect;
+use LaravelMercadoPago\LaravelMercadoPago\Contracs\ManagesApiResponses;
+use Illuminate\Support\Facades\Http;
 
-class PlansMercadoPago implements Responsable
+class PlansMercadoPago implements ManagesApiResponses
 {
     private string $back_url;
 
@@ -89,13 +88,19 @@ class PlansMercadoPago implements Responsable
         return $this;
     }
 
-    public function response(): RedirectResponse
+    public function handleStatusCode(Http $response)
     {
-        return Redirect::to($this->create(), 303);
+    }
+   
+    public function handleExpection(Http $response)
+    {
     }
 
-    public function toResponse($request): RedirectResponse
+    public function handleResponse(Http $response)
     {
-        return $this->response();
+    }
+
+    public function resolve(Http $response)
+    {
     }
 }

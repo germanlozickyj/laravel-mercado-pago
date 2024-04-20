@@ -3,13 +3,14 @@
 namespace LaravelMercadoPago\LaravelMercadoPago;
 
 use Illuminate\Support\Facades\Http;
+use LaravelMercadoPago\LaravelMercadoPago\Contracs\ManagesApiResponses;
 use Money\Currencies\ISOCurrencies;
 use Money\Currency;
 use Money\Formatter\IntlMoneyFormatter;
 use Money\Money;
 use NumberFormatter;
 
-class LaravelMercadoPago
+class LaravelMercadoPago implements ManagesApiResponses
 {
     const API_URL = 'https://api.mercadopago.com';
 
@@ -26,15 +27,10 @@ class LaravelMercadoPago
             ->contentType('application/json')
             ->$method(static::API_URL."/$uri", $payload);
 
-        if ($response->failed()) {
-            //mercado pago exception
-        }
+        self::handleStatusCode($response);
+        self::handleExpection($response);
 
-        if (config('mercado-pago.sandbox_active')) {
-            return $response['sandbox_init_point'];
-        }
-
-        return $response['init_point'];
+        return self::handleResponse($response);
     }
 
     public static function formatAmount(int $amount, string $currency, ?string $locale = null, array $options = []): string
@@ -52,5 +48,17 @@ class LaravelMercadoPago
         $moneyFormatter = new IntlMoneyFormatter($numberFormatter, new ISOCurrencies());
 
         return $moneyFormatter->format($money);
+    }
+
+    public function handleStatusCode(Http $response)
+    {
+    }
+   
+    public function handleExpection(Http $response)
+    {
+    }
+
+    public function handleResponse(Http $response)
+    {
     }
 }

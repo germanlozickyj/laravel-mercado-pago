@@ -3,11 +3,10 @@
 namespace LaravelMercadoPago\LaravelMercadoPago;
 
 use DateTimeInterface;
-use Illuminate\Contracts\Support\Responsable;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Http;
+use LaravelMercadoPago\LaravelMercadoPago\Contracs\ManagesApiResponses;
 
-class CheckoutLink implements Responsable
+class CheckoutLink implements ManagesApiResponses
 {
     private string $title;
 
@@ -155,16 +154,6 @@ class CheckoutLink implements Responsable
         $this->custom_data['expiration_date_to'] = $end_time;
 
         return $this;
-    }
-
-    public function redirect(): RedirectResponse
-    {
-        return Redirect::to($this->url(), 303);
-    }
-
-    public function toResponse($request): RedirectResponse
-    {
-        return $this->redirect();
     }
 
     public function withExcludedPaymentMethods(array $methods): self
@@ -331,5 +320,22 @@ class CheckoutLink implements Responsable
         $this->notification_url = $notification_url;
 
         return $this;
+    }
+
+    public function handleStatusCode(Http $response)
+    {
+    }
+   
+    public function handleExpection(Http $response)
+    {
+    }
+
+    public function handleResponse(Http $response)
+    {
+        if (config('mercado-pago.sandbox_active')) {
+            return $response['sandbox_init_point'];
+        }
+
+        return $response['init_point'];
     }
 }
