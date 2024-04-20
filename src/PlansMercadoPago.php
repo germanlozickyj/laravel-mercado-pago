@@ -43,8 +43,8 @@ class PlansMercadoPago implements Responsable
             'auto_recurring' => $this->auto_recurring,
             'back_url' => $this->back_url,
             'payment_methods_allowed' => array_merge(
-                    $this->payment_methods_allowed,
-                    $this->custom_auto_recurring
+                $this->payment_methods_allowed,
+                $this->custom_auto_recurring
             ),
             'reason' => $this->reason,
         ]);
