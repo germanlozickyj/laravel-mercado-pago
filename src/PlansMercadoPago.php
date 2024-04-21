@@ -86,13 +86,13 @@ class PlansMercadoPago implements ManagesApiResponses
             'auto_recurring' => $this->auto_recurring,
             'back_url' => $this->back_url,
             'payment_methods_allowed' => $this->payment_methods_allowed,
-            'reason' => $this->reason
+            'reason' => $this->reason,
         ]);
     }
 
     public function handleStatusCode(Http $response)
     {
-        if($response->failed()) {
+        if ($response->failed()) {
             //exception
         }
     }
