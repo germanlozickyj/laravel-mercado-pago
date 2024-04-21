@@ -49,32 +49,32 @@ class PlansMercadoPago implements ManagesApiResponses
         return $this;
     }
 
-    public function withCurrency(string $currency) : self
+    public function withCurrency(string $currency): self
     {
         $this->auto_recurring['currency_id'] = $currency;
-        
+
         return $this;
     }
 
-    public function withBillingDay(int $day) : self
+    public function withBillingDay(int $day): self
     {
         $this->auto_recurring['billing_day'] = $day;
-        
+
         return $this;
     }
 
-    public function withBillingDayProportional(bool $option) : self
+    public function withBillingDayProportional(bool $option): self
     {
         $this->auto_recurring['billing_day_proportional'] = $option;
-        
+
         return $this;
     }
 
-    public function withFreeTrial(int $frequency, string $frequency_type) : self
+    public function withFreeTrial(int $frequency, string $frequency_type): self
     {
         $this->auto_recurring['free_trial'] = [
             'frequency' => $frequency,
-            'frequency_type' => $frequency_type
+            'frequency_type' => $frequency_type,
         ];
 
         return $this;
@@ -89,7 +89,6 @@ class PlansMercadoPago implements ManagesApiResponses
             'reason' => $this->reason
         ]);
     }
-
 
     public function handleStatusCode(Http $response)
     {
