@@ -326,10 +326,6 @@ class CheckoutLink implements ManagesApiResponses
     {
     }
 
-    public function handleExpection(Http $response)
-    {
-    }
-
     public function handleResponse(Http $response)
     {
         if (config('mercado-pago.sandbox_active')) {

@@ -15,8 +15,6 @@ class PlansMercadoPago implements ManagesApiResponses
 
     private array $payment_methods_allowed;
 
-    private array $custom_auto_recurring;
-
     public static function make(): static
     {
         return new static();
@@ -84,33 +82,24 @@ class PlansMercadoPago implements ManagesApiResponses
 
     public function create()
     {
-        $response = LaravelMercadoPago::api('POST', 'preapproval_plan', [
+        LaravelMercadoPago::api('POST', 'preapproval_plan', [
             'auto_recurring' => $this->auto_recurring,
             'back_url' => $this->back_url,
-            'payment_methods_allowed' => array_merge(
-                $this->payment_methods_allowed,
-                $this->custom_auto_recurring
-            ),
-            'reason' => $this->reason,
+            'payment_methods_allowed' => $this->payment_methods_allowed,
+            'reason' => $this->reason
         ]);
-
-        //TODO save in db
     }
 
 
     public function handleStatusCode(Http $response)
     {
-    }
-
-    public function handleExpection(Http $response)
-    {
+        if($response->failed()) {
+            //exception
+        }
     }
 
     public function handleResponse(Http $response)
     {
-    }
-
-    public function resolve(Http $response)
-    {
+        //saveOnDB
     }
 }

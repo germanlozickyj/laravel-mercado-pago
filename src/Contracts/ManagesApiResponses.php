@@ -8,7 +8,5 @@ interface ManagesApiResponses
 {
     public function handleStatusCode(Http $response);
 
-    public function handleExpection(Http $response);
-
     public function handleResponse(Http $response);
 }
