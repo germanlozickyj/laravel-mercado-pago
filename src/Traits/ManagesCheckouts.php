@@ -45,7 +45,7 @@ trait ManagesCheckouts
             return;
         }
         if (in_array(['frequency', 'frequency_type', 'currency_id'], $auto_recurring)) {
-           throw new MercadoPagoParamException("frequency, frequency_type, 'currency_id are required in auto_recurring");
+            throw new MercadoPagoParamException("frequency, frequency_type, 'currency_id are required in auto_recurring");
         }
         if (in_array($auto_recurring['frequency_type'], ['days', 'months'])) {
             throw new MercadoPagoParamException("frequency_type must be 'days' or 'months' not {$auto_recurring['frequency_type']}");

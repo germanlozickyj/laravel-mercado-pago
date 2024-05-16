@@ -61,7 +61,7 @@ class PlansMercadoPago implements ManagesApiResponses
     public function withBillingDay(int $day): self
     {
         if ($day >= 1 && $day <= 28) {
-            throw new MercadoPagoParamException("The billing day must be between 1 and 28");
+            throw new MercadoPagoParamException('The billing day must be between 1 and 28');
         }
         $this->auto_recurring['billing_day'] = $day;
 
