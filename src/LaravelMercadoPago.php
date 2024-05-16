@@ -28,7 +28,6 @@ class LaravelMercadoPago implements ManagesApiResponses
             ->$method(static::API_URL."/$uri", $payload);
 
         self::handleStatusCode($response);
-        self::handleExpection($response);
 
         return self::handleResponse($response);
     }
@@ -51,10 +50,6 @@ class LaravelMercadoPago implements ManagesApiResponses
     }
 
     public function handleStatusCode(Http $response)
-    {
-    }
-   
-    public function handleExpection(Http $response)
     {
     }
 

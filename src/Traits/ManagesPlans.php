@@ -2,50 +2,26 @@
 
 namespace App\Http\Traits;
 
-use App\Http\PlansMercadoPago;
+use LaravelMercadoPago\LaravelMercadoPago\PlansMercadoPago;
 
 trait ManagesPlans
 {
     private PlansMercadoPago $planMercadoPago;
 
     public static function makePlan(
-        string $back_url, 
+        string $back_url,
         string $reason
-    ) : self 
-    {
+    ): self {
         $plan = new static();
         $plan->planMercadoPago = PlansMercadoPago::make()
-                                    ->withBackUrl($back_url)
-                                    ->withReason($reason);
+            ->withBackUrl($back_url)
+            ->withReason($reason);
 
         return $plan;
     }
 
-    private function createPlan(
-        string $back_url,
-        string $reason,
-        int $frequency,
-        string $frequency_type,
-        array $payment_methods_allowed = [],
-        array $custom_auto_recurring = [],
-    ) {
-        $plan = PlansMercadoPago::make()
-            ->withBackUrl($back_url)
-            ->withReason($reason)
-            ->withAutoRecurring($frequency, $frequency_type);
-
-        if (! empty($payment_methods_allowed)) {
-            $this->withPaymentMethodsAllowed($payment_methods_allowed);
-        }
-        if (! empty($custom_auto_recurring)) {
-            $this->withCustomAutoRecurring($payment_methods_allowed);
-        }
-
-        $plan->create();
-    }
-
-    public function createMonthlyPlan() : self
-    {   
+    public function createMonthlyPlan(): self
+    {
         $this->setObjectMercadoPago(
             $this->planMercadoPago
                 ->withAutoRecurring(1, 'months')
@@ -54,8 +30,8 @@ trait ManagesPlans
         return $this;
     }
 
-    public function createYearlyPlan() : self
-    {   
+    public function createYearlyPlan(): self
+    {
         $this->setObjectMercadoPago(
             $this->planMercadoPago
                 ->withAutoRecurring(12, 'months')
@@ -64,8 +40,22 @@ trait ManagesPlans
         return $this;
     }
 
-    public function setCurrency(string $currency): self 
+    public function setCurrency(string $currency): self
     {
+        if (! in_array($currency,
+            [
+                'ARS',
+                'BRL',
+                'CLP',
+                'MXN',
+                'COP',
+                'PEN',
+                'UYU',
+            ]
+        )) {
+            //exception
+        }
+
         $this->setObjectMercadoPago(
             $this->planMercadoPago
                 ->withCurrency($currency)
@@ -94,10 +84,42 @@ trait ManagesPlans
         return $this;
     }
 
-    private function setObjectMercadoPago(PlansMercadoPago $object) : void
+    private function setObjectMercadoPago(PlansMercadoPago $object): void
     {
         $this->planMercadoPago = $object;
     }
 
+    public function repeatSubscriptionCycle(int $number): self
+    {
+        $this->setObjectMercadoPago(
+            $this->planMercadoPago
+                ->withRepetitions($number)
+        );
 
+        return $this;
+    }
+
+    public function billingAtDay(int $day): self
+    {
+        if ($day < 1 || $day > 28) {
+            //exception
+        }
+
+        $this->setObjectMercadoPago(
+            $this->planMercadoPago
+                ->withBillingDay($day)
+        );
+
+        return $this;
+    }
+
+    public function billingDayProportional(bool $option): self
+    {
+        $this->setObjectMercadoPago(
+            $this->planMercadoPago
+                ->withBillingDayProportional($option)
+        );
+
+        return $this;
+    }
 }
