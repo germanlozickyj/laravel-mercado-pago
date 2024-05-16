@@ -4,6 +4,7 @@ namespace LaravelMercadoPago\LaravelMercadoPago\Traits;
 
 use LaravelMercadoPago\LaravelMercadoPago\CheckoutLink;
 use LaravelMercadoPago\LaravelMercadoPago\checkoutSubscription;
+use LaravelMercadoPago\LaravelMercadoPago\Exceptions\MercadoPagoParamException;
 
 trait ManagesCheckouts
 {
@@ -44,10 +45,10 @@ trait ManagesCheckouts
             return;
         }
         if (in_array(['frequency', 'frequency_type', 'currency_id'], $auto_recurring)) {
-            //exception
+           throw new MercadoPagoParamException("frequency, frequency_type, 'currency_id are required in auto_recurring");
         }
         if (in_array($auto_recurring['frequency_type'], ['days', 'months'])) {
-            //exception
+            throw new MercadoPagoParamException("frequency_type must be 'days' or 'months' not {$auto_recurring['frequency_type']}");
         }
         if (
             in_array($auto_recurring['currency_id'],
@@ -61,7 +62,7 @@ trait ManagesCheckouts
                     'UYU',
                 ]
             )) {
-            //exception
+            throw new MercadoPagoParamException("currency_id is incorrect currencies allowed: 'ARS','BRL','CLP','MXN','COP','PEN','UYU'");
         }
     }
 }

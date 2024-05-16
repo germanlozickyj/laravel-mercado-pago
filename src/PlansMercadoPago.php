@@ -4,6 +4,7 @@ namespace LaravelMercadoPago\LaravelMercadoPago;
 
 use LaravelMercadoPago\LaravelMercadoPago\Contracs\ManagesApiResponses;
 use Illuminate\Support\Facades\Http;
+use LaravelMercadoPago\LaravelMercadoPago\Exceptions\MercadoPagoParamException;
 
 class PlansMercadoPago implements ManagesApiResponses
 {
@@ -79,7 +80,7 @@ class PlansMercadoPago implements ManagesApiResponses
     public function withAutoRecurring(int $frequency, string $frequency_type): self
     {
         if (in_array($frequency_type, ['days', 'months'])) {
-            //exception
+            throw new MercadoPagoParamException("frequency_type must be 'days' or 'months', not {$frequency_type}");
         }
 
         $this->auto_recurring['frequency_type'] = $frequency_type;
